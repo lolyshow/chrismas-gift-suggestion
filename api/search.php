@@ -1,19 +1,15 @@
 <?php
-// search.php
-
-require_once 'config.php';
 require_once 'utils.php';
+include  "../helper/Helper.php";
 
-// Load configuration
+$helper = new Helper();
 $config = include('config.php');
 
-// Fetch the query parameter
 $query = isset($_GET['query']) ? htmlspecialchars(trim($_GET['query'])) : '';
 
 // fetch data from the API
 $apiUrl = $config['api_base_url'];
 $apiData = fetchApiData($apiUrl);
-var_dump($apiData);
 // filter results
 $results = [];
 if (!empty($query)) {
@@ -35,6 +31,5 @@ if (!empty($query)) {
         ];
     }, $apiData), 0, 10);
 }
-
-sendJsonResponse($results);
+$helper->success( $results);
 ?>

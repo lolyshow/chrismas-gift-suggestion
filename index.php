@@ -1,14 +1,20 @@
 <?php
+include './helper/Helper.php';
+// Enable CORS
+header( 'Access-Control-Allow-Origin: *' );
+$helper = new Helper();
+$endpoint = isset( $_GET[ 'endpoint' ] ) ? $_GET[ 'endpoint' ] : '';
 
-$endpoint = isset($_GET['endpoint']) ? $_GET['endpoint'] : '';
-
-switch ($endpoint) {
+switch ( $endpoint ) {
     case 'search':
+    try {
         include 'api/search.php';
         break;
+    }
+    catch ( Exception $e ) {
+        echo "error!!!";
+    }
     default:
-        header("HTTP/1.1 404 Not Found");
-        echo json_encode(["error" => "Invalid endpoint"]);
-        exit;
+        $helper->notFound( 'Invalid endpoint' );
 }
 ?>
